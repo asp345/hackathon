@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 import usermanage.views
 import sound.views
-import account.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
