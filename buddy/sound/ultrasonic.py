@@ -30,7 +30,7 @@ def send_ultrasonic(n, bit_freq, path, rate = 44100, bps = 60, margin_time = 0.2
     # sin wave * bit 데이터 생성
     for i in range(20):
         for j in range(bit_block_size):
-            data.append(int(bit_with_signal[i] * math.sin((2 * math.pi) * (bit_freq / rate) * j) * 2147483647))
+            data.append(int(bit_with_signal[i] * math.sin((2 * math.pi) * (bit_freq / rate) * j) * 2147483640))
     data += [0] * int(margin_time * rate)
     data = np.array(data)
     wav = write(path, rate, data)
@@ -68,7 +68,7 @@ def receive_ultrasonic(bit_freq, path, bps = 60, sampling_num = 5):
         data.append(abs(amp[int(block_size / (rate / bit_freq))]))
     # 비트 추출
     data_mx = max(data)
-    bit_raw = list(map(lambda x: 1 if (x > data_mx / 2) else 0, data))
+    bit_raw = list(map(lambda x: 1 if (x > (data_mx / 2)) else 0, data))
 
     start_t, end_t, bit_t = 0, 0, 0
     for i in range(len(bit_raw) - 1):
