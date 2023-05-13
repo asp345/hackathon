@@ -6,6 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 @api_view(['POST'])
 def CreateUserView(request):
+    author = request.user
+    if not author.is_authenticated:
+            return Response({"detail": "Authentication credentials not provided"}, status=status.HTTP_401_UNAUTHORIZED)
     realname = request.data.get('realname')
     userid = request.data.get('userid')
     content = request.data.get('content')
@@ -30,12 +33,15 @@ class UserListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
         
     def post(self, request):
+        author = request.user
         realname = request.data.get('realname')
         userid = request.data.get('userid')
         content = request.data.get('content')
+        if not author.is_authenticated:
+            return Response({"detail": "Authentication credentials not provided"}, status=status.HTTP_401_UNAUTHORIZED)
         if not realname or not userid or not content:
             return Response({"detail": "[realname, userid, content] fields missing."}, status=status.HTTP_400_BAD_REQUEST)
-        user = usermanage.objects.create(realname=realname, userid=userid, content=content)
+        user = usermanage.objects.create(realname=realname, userid=userid, content=content, author = author)
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 

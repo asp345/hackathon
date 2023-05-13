@@ -42,3 +42,9 @@ class SigninView(APIView):
         user_profile = UserProfile.objects.get(user=user)
         serialized_data = UserProfileSerializer(user_profile).data
         return Response(serialized_data, status=status.HTTP_200_OK)
+
+class LogoutView(APIView):
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return Response({"detail": "로그인 후 다시 시도해주세요."}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(status=status.HTTP_204_NO_CONTENT)
