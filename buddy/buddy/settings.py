@@ -152,4 +152,6 @@ SIMPLE_JWT = {
 }
 
 SASS_PROCESSOR_ENABLED =  True
-SASS_PROCESSOR_ROOT =  os.path.join(BASE_DIR, 'blogPosts', 'static')
+SASS_PROCESSOR_ROOT =  os.path.join(BASE_DIR, 'account', 'static')
+LOGIN_REDIRECT_URL = "/usermanage/"
+LOGOUT_REDIRECT_URL = "/usermanage/"

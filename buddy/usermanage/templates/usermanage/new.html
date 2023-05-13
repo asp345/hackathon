@@ -1,0 +1,19 @@
+{% comment %} ./usermanage/templates/usermanage/new.html {% endcomment %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>snulion</title>
+  </head>
+  <body>
+    <h1>new post</h1>
+    <form action="{% url 'usermanage:index' %}" method="POST">
+      {%csrf_token %}
+      <p>title</p>
+      <input name="title" /> <br />
+      <p>content</p>
+      <textarea name="content" rows="30" cols="50"></textarea> <br />
+      <input type="submit" value="submit" />
+    </form>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from rest_framework.response import Response
 from .models import usermanage
 from rest_framework.decorators import api_view
@@ -6,7 +6,23 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
-    return render(request, 'usermanage/index.html')
+    if request.method == 'GET': # index
+        posts = usermanage.objects.all()
+        return render(request, 'usermanage/index.html', {'posts': posts})
+    elif request.method == 'POST': # create(form을 이용하여 submit한 형태) 
+        title = request.POST['title']
+        content = request.POST['content']
+        usermanage.objects.create(title=title, content=content)
+        return redirect('usermanage:index')
+def new(request):
+    return render(request, 'usermanage/new.html')
+def show(request, id):
+    post = usermanage.objects.get(id=id)
+    return render(request, 'usermanage/page/show.html', {'post':post})
+def delete(request, id):
+    post = usermanage.objects.get(id=id)
+    post.delete() # 선택된 모델 인스턴스를 삭제하는 query 함수입니다.
+    return redirect('page/usermanage:index')
 @csrf_exempt
 @api_view(['POST'])
 def CreateUserView(request):
@@ -87,7 +103,6 @@ class UserUpdateView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# blogPosts/views.py
 
 def index(request):
     users = usermanage.objects.all()

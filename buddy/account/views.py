@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from .models import UserProfile
 from .serializers import UserSerializer,UserProfileSerializer
@@ -11,7 +11,12 @@ from datetime import datetime, timedelta
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework.status import HTTP_200_OK
 from rest_framework_simplejwt.tokens import AccessToken
+from .models import UserProfile
+from .serializers import UserSerializer, UserProfileSerializer
+from django.contrib import auth
+from usermanage.models import usermanage
 
+posts = usermanage.objects.all()
 
 # Create your views here.
 
@@ -30,7 +35,17 @@ def set_token_on_response_cookie(user: User) -> Response:
     res.set_cookie('refresh_token', value=str(token), httponly=True)
     res.set_cookie('access_token', value=str(token.access_token), httponly=True)
     return res
+def signuppage(request):
+    return render(request, 'account/login.html')
+def login(request):
+    if request.method == 'POST':
+        user = auth.authenticate(username=request.POST['username'], password=request.POST['password'])
+        auth.login(request, user)
+        return redirect('account:index')
+    return render(request, 'account/login.html')
 class SignupView(APIView):
+    def get(self, request):
+        return render(request, 'account/account.html')
     def post(self, request):
         college=request.data.get('college')
         major=request.data.get('major')
