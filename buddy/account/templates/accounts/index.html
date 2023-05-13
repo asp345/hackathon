@@ -1,0 +1,19 @@
+{% comment %} /blogPosts/templates/blogPosts/index.html {% endcomment %} ...
+<body>
+  <h1>POSTS</h1>
+  {% for post in posts %} {% comment %} 이전 view에서 index.html에 모든 포스트를
+  불러와 'posts'라는 이름으로 전달해주었기 때문에 posts라는 이름으로 사용할 수
+  있습니다. {% endcomment %}
+  <div style="border: 1px solid grey">
+    <a href="/posts/{{ post.id }}/">
+      {% comment %} 포스트 제목을 누르면 내용을 확인할 수 있도록 링크를
+      설정해주었습니다. 아직은 확인할 수 없지만 곧 구현할거에요! {% endcomment
+      %}
+      <h3>{{ post.title }}</h3>
+    </a>
+  </div>
+  {% endfor %} {% comment %} for 문을 end시킨다는 뜻! 템플릿에서는 파이썬
+  스크립트와 달리 들여쓰기로 구문을 구분할 수 없기 때문에 명시적으로 적어주어야
+  합니다. {% endcomment %}
+</body>
+...
