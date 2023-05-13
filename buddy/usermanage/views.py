@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from .models import usermanage
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
+
+
 def index(request):
     return render(request, 'usermanage/index.html')
 @csrf_exempt
@@ -84,3 +86,10 @@ class UserUpdateView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# blogPosts/views.py
+
+def index(request):
+    users = usermanage.objects.all()
+    #users = usermanage.objects.filter()
+    return render(request, 'usermanage/index.html',{'users': users})
