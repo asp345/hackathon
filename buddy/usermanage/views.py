@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from .models import usermanage
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
+def index(request):
+    return render(request, 'usermanage/index.html')
 @csrf_exempt
 @api_view(['POST'])
 def CreateUserView(request):

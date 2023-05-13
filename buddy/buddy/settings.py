@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "usermanage",
     "account",
+    "sass_processor",
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,5 @@ REST_FRAMEWORK = {
     )
 }
 
+SASS_PROCESSOR_ENABLED =  True
+SASS_PROCESSOR_ROOT =  os.path.join(BASE_DIR, 'blogPosts', 'static')

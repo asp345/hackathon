@@ -9,5 +9,5 @@ urlpatterns = [
     # CBV url path
     path("", UserListView.as_view()), 
     path("<int:user_id>/", UserDetailView.as_view()),
-    path("<int:user_id>/update/", UserUpdateView.as_view())
+    path("<int:user_id>/update/", UserUpdateView.as_view()),
 ]
