@@ -103,8 +103,8 @@ class UserUpdateView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+""" 
 def index(request):
     users = usermanage.objects.all()
     #users = usermanage.objects.filter()
-    return render(request, 'usermanage/index.html',{'users': users})
+    return render(request, 'usermanage/index.html',{'users': users}) """

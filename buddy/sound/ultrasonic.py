@@ -2,9 +2,10 @@ import scipy
 import numpy as np
 import wave
 import math
+import random
 from scipy.io.wavfile import write
 from scipy.io.wavfile import read
-
+import matplotlib.pyplot as plt
 def int_to_bin(n):
     n = int(n)
     bit = []
@@ -12,7 +13,6 @@ def int_to_bin(n):
         bit.append(n % 2)
         n //= 2
     return bit[::-1]
-
 def bin_to_int(bit):
     tmp = 1
     res = 0
@@ -20,7 +20,6 @@ def bin_to_int(bit):
         res += tmp * bit[i]
         tmp *= 2
     return res
-
 def send_ultrasonic(n, bit_freq, path, rate = 44100, bps = 60, margin_time = 0.2):
     bit = int_to_bin(n)
     # bit with start, end signal
@@ -33,8 +32,7 @@ def send_ultrasonic(n, bit_freq, path, rate = 44100, bps = 60, margin_time = 0.2
             data.append(int(bit_with_signal[i] * math.sin((2 * math.pi) * (bit_freq / rate) * j) * 2147483640))
     data += [0] * int(margin_time * rate)
     data = np.array(data)
-    wav = write(path, rate, data)
-
+    wav = write(path, rate, data.astype(np.int32))
 def receive_ultrasonic(bit_freq, path, bps = 60, sampling_num = 5):
     # wav 읽기
     raw = read(path)
@@ -68,8 +66,7 @@ def receive_ultrasonic(bit_freq, path, bps = 60, sampling_num = 5):
         data.append(abs(amp[int(block_size / (rate / bit_freq))]))
     # 비트 추출
     data_mx = max(data)
-    bit_raw = list(map(lambda x: 1 if (x > (data_mx / 2)) else 0, data))
-
+    bit_raw = list(map(lambda x: 1 if x > data_mx / 2 else 0, data))
     start_t, end_t, bit_t = 0, 0, 0
     for i in range(len(bit_raw) - 1):
         if bit_raw[i] == 0 and bit_raw[i + 1] == 1:
@@ -96,5 +93,6 @@ def receive_ultrasonic(bit_freq, path, bps = 60, sampling_num = 5):
                 bit[i] = 1
             else:
                 bit[i] = 0
+    else:
+        bit = [0] * 20
     return bin_to_int(bit)
-

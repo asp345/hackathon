@@ -41,7 +41,7 @@ def record_sound(request):
     # 파일을 서버에 저장합니다.
     with open(recid+'.wav', 'wb') as f:
         f.write(recording.read())
-    key=ultrasonic.receive_ultrasonic(16000,recid+'.wav')
+    key=ultrasonic.receive_ultrasonic(2000,recid+'.wav')
     KeyUpdateView.put({"receiverid" : recid},key)
     return HttpResponse('Success!', status=200)
     # 성공 응답을 반환합니다.
