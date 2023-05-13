@@ -10,10 +10,10 @@ def CreateUserView(request):
     userid = request.data.get('userid')
     content = request.data.get('content')
     userobj = usermanage.objects.create(realname=realname, userid=userid, content=content)
-    return Response({"msg":f"'{userobj.realnane}'이 등록되었습니다"})
+    return Response({"msg":f"'{userobj.realname}'이 등록되었습니다"})
 
 @api_view(['GET'])
 def ReadAllUserView(request):
     users = usermanage.objects.all()
-    contents = [{userobj.title:userobj.content} for userobj in users]
+    contents = [{userobj.realname:userobj.content} for userobj in users]
     return Response({"users":contents})
