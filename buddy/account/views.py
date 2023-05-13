@@ -27,3 +27,18 @@ class SignupView(APIView):
         serialized_data = UserProfileSerializer(user_profile).data
         #### 5
         return Response(serialized_data, status=status.HTTP_201_CREATED)
+
+
+class SigninView(APIView):
+    def post(self, request):
+        try:
+            user = User.objects.get(
+                username=request.data["username"], password=request.data["password"]
+            )
+        except:
+            return Response(
+                {"detail": "아이디 또는 비밀번호를 확인해주세요."}, status=status.HTTP_400_BAD_REQUEST
+            )
+        user_profile = UserProfile.objects.get(user=user)
+        serialized_data = UserProfileSerializer(user_profile).data
+        return Response(serialized_data, status=status.HTTP_200_OK)

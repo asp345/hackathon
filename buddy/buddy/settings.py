@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-o(@39-#=7)%4m&x61w1q069#5@=&+!pj^h2rrz_#-7!yl4wd1d
 DEBUG = True
 
 # 있었으면 수정, 없었으면 추가
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 # Application definition
 
@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "usermanage"
+    "usermanage",
+    "account",
 ]
 
 MIDDLEWARE = [
@@ -125,8 +126,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ## 맨 아래
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES' : (
-        'rest_framework.permissions.AllowAny',
-    )
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",)
 }
-
