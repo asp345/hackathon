@@ -7,9 +7,10 @@
   <body>
     <h1>POSTS</h1>
     <a href="{% url 'usermanage:new' %}">new post</a>
+    <a href="/sound/">sounds</a>
     {% for post in posts %} 
       <div style="border: 1px solid grey;">
-				<a href="/posts/{{ post.id }}/"> 
+				<a href="/usermanage/{{ post.id }}/"> 
 {% comment %} <a href="{% url 'usermanage:show' post.id %}">  {% endcomment %}
           <h3>{{ post.title }}</h3>
         </a>

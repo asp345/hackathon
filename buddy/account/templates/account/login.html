@@ -1,15 +1,44 @@
 {% extends 'base.html' %} {% block content %}
-<h1>로그인</h1>
-<form method="post" action="{% url 'account:login' %}">
-  {% csrf_token %}
-  <p>
-    사용자 이름:
-    <input type="text" name="username" value="" />
-  </p>
-  <p>
-    비밀번호:
-    <input type="password" name="password" value="" />
-  </p>
-  <input type="submit" value="로그인" />
-</form>
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>buddy</title>
+    {% load static %} {% load sass_tags %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% sass_src 'account/scss/style1.scss' %}"
+    />
+  </head>
+  <body>
+    <div class="center">
+      <h1>Login</h1>
+      <form method="post" action="{% url 'account:login' %}">
+        {% csrf_token %}
+        <div class="txt_field">
+          <input type="text" required />
+          <span></span>
+          <p class="label">
+            id:
+            <input type="text" name="username" value="" />
+          </p class="label">
+        </div>
+        <div class="txt_field">
+          <input type="password" name="password" value="" />
+          <span></span>
+          <p class="label">
+            password:
+            
+          </p class="label">
+        </div>
+        <div class="pass">Forgot Password?</div>
+        <input type="submit" value="Login" />
+        <div class="signup_link">Not a member? <a href="{% url 'account:signuppage' %}">Signup</a></div>
+      </form>
+    </div>
+  </body>
+</html>
+
 {% endblock content %}

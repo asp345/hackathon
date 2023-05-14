@@ -36,12 +36,14 @@ def set_token_on_response_cookie(user: User) -> Response:
     res.set_cookie('access_token', value=str(token.access_token), httponly=True)
     return res
 def signuppage(request):
-    return render(request, 'account/login.html')
+    return render(request, 'account/signuppage.html')
+def test(request):
+    return render(request, 'account/index1.html')
 def login(request):
     if request.method == 'POST':
         user = auth.authenticate(username=request.POST['username'], password=request.POST['password'])
         auth.login(request, user)
-        return redirect('account:index')
+        return redirect('/api/usermanage/page/')
     return render(request, 'account/login.html')
 class SignupView(APIView):
     def get(self, request):

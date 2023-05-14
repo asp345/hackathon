@@ -10,7 +10,7 @@ urlpatterns = [
     path("", UserListView.as_view()), 
     path("<int:user_id>/", UserDetailView.as_view()),
     path("<int:user_id>/update/", UserUpdateView.as_view()),
-    path('page', views.index, name='index'),
+    path('page/', views.index, name='index'),
     path('new/', views.new, name='new'),
     path('page/<int:id>/', views.show, name='show'),
     path('page/<int:id>/delete/', views.delete, name='delete'),

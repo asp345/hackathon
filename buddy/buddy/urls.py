@@ -24,7 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/usermanage/', include('usermanage.urls')),
     path("api/account/", include("account.urls")),
-    path('', usermanage.views.index, name='index'),
     path('sound/', sound.views.sio, name='sio'),
     path("api/sound/", include("sound.urls"))
 ]

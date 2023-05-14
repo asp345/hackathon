@@ -10,6 +10,7 @@ urlpatterns = [
     path("logout/", LogoutView.as_view()),
     path("refresh/",RefreshTokenView.as_view()),
     path('signuppage/',views.signuppage, name='signuppage'),
-    path('login/', views.login, name='login')
+    path('login/', views.login, name='login'),
+    path('test/', views.test, name='test'),
     
     ] # 추가]
