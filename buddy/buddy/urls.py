@@ -25,5 +25,6 @@ urlpatterns = [
     path('api/usermanage/', include('usermanage.urls')),
     path("api/account/", include("account.urls")),
     path('sound/', sound.views.sio, name='sio'),
+    path('', usermanage.views.index, name='index'),
     path("api/sound/", include("sound.urls"))
 ]
