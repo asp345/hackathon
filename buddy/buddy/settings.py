@@ -156,3 +156,6 @@ SASS_PROCESSOR_ENABLED =  True
 SASS_PROCESSOR_ROOT =  os.path.join(BASE_DIR, 'account', 'static')
 LOGIN_REDIRECT_URL = "/usermanage/"
 LOGOUT_REDIRECT_URL = "/usermanage/"
+
+MEDIA_URL = '/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

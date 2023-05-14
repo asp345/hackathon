@@ -1,27 +1,34 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사람 추가</title>
+    <title>Buddy 추가</title>
 </head>
 <body>
-    <h1>사람 추가 송수신</h1>
+    <h1>음파 송신/수신</h1>
     <script>
+      var jbRandom = String(Math.floor(Math.random()*65535));
+      function playMusic(){
+          var audio = new Audio('{% static "sound/" %}' + jbRandom + '.wav');
+          audio.play();
+          }
         function playreq() {
           var xhr = new XMLHttpRequest();
-          var jbRandom = String(Math.floor(Math.random()*65535));
           xhr.open("POST", "/api/sound/play_sound/", true);
           xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
           xhr.send("randint="+jbRandom+"&senderid={{ user }}");
-          var audio = new Audio('buddy/sound/'+jbRandom+'.wav');
-          audio.play();
           var xhr2 = new XMLHttpRequest();
           xhr2.open("POST", "/api/sound/addkey/", true);
           xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
           xhr2.send("randint="+jbRandom+"&senderid={{ user }}");
+          playMusic();
+        
         }
+          // 오디오 요소를 가져옵니다.
+        
         function recreq() {
           var xhr = new XMLHttpRequest();
           xhr.open("POST", "/api/sound/record_sound/", true);
@@ -32,34 +39,82 @@
           xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
           xhr2.send("receiverid={{ user }}",rec_key);
         }
-        /* function rec(){
-        navigator.mediaDevices.getUserMedia({ audio: true})
-        .then(stream => {
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.start();
-        const audioChunks = [];
+        // 음성 녹음을 위한 전역 변수
+let mediaRecorder;
+let recordedChunks = [];
 
-        mediaRecorder.addEventListener("dataavailable", event => {
-          audioChunks.push(event.data);
-        });
+// 음성 녹음 시작
+function startRecording() {
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function (stream) {
+      // MediaRecorder 생성
+      mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });
 
-        mediaRecorder.onstop = function(){
-      const file = new File(audioChunks,'filename.mp3');
-      const form = new FormData();
-      form.append("file", file);
-      fetch('your url',{
-        method:"POST",
-        body:form
-        })
+      // 데이터를 받을 때마다 호출되는 이벤트 리스너
+      mediaRecorder.ondataavailable = function (e) {
+        recordedChunks.push(e.data);
+      };
+
+      // 녹음 종료 시 호출되는 이벤트 리스너
+      mediaRecorder.onstop = function () {
+        // 녹음된 데이터를 Blob으로 변환
+        const blob = new Blob(recordedChunks, { type: 'audio/wav' });
+
+        // Django에 PUT 요청 보내기
+        sendAudioData(blob);
+      };
+
+      // 3초간 녹음
+      setTimeout(function () {
+        stopRecording();
+      }, 3000);
+
+      // 녹음 시작
+      mediaRecorder.start();
+    })
+    .catch(function (err) {
+      console.log('음성 녹음을 시작할 수 없습니다.', err);
+    });
+}
+
+// 음성 녹음 종료
+function stopRecording() {
+  mediaRecorder.stop();
+}
+
+// Django에 PUT 요청 보내기
+function sendAudioData(blob) {
+  const url = '/api/sound/record_sound/'; // Django 엔드포인트 URL (적절하게 변경 필요)
+
+  // FormData 생성
+  const formData = new FormData();
+  formData.append('audio', blob, 'recorded_audio.wav');
+
+  // PUT 요청 보내기
+  fetch(url, {
+    method: 'PUT',
+    body: formData,
+  })
+    .then(function (response) {
+      if (response.ok) {
+        console.log('음성 데이터 전송 완료');
+      } else {
+        console.log('음성 데이터 전송 실패');
       }
-      setTimeout(function(){
-        mediaRecorder.stop();
-      },3)});} */
+    })
+    .catch(function (error) {
+      console.log('음성 데이터 전송 중 오류 발생', error);
+    });
+}
+
+// 녹음 시작 버튼 클릭 시 호출
+document.getElementById('startRecordingBtn').addEventListener('click', startRecording);
+    
     </script>
-    <button onclick="playreq()">키 추가 및 초음파 재생</button> &nbsp; <button onclick="recreq()">초음파 녹음</button>
+    <button onclick="playreq()">음파 재생</button> &nbsp; <button onclick="startRecording()">음파 녹음으로 키 추가</button> <br><br>
+    <a href="/">홈으로 가기</a>
+  </audio>
+ </audio>
 
-
-
-        
 </body>
 </html>

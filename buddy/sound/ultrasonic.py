@@ -66,7 +66,7 @@ def receive_ultrasonic(bit_freq, path, bps = 60, sampling_num = 5):
         data.append(abs(amp[int(block_size / (rate / bit_freq))]))
     # 비트 추출
     data_mx = max(data)
-    bit_raw = list(map(lambda x: 1 if x > data_mx / 2 else 0, data))
+    bit_raw = list(map(lambda x: 1 if x > data_mx / 4 else 0, data))
     start_t, end_t, bit_t = 0, 0, 0
     for i in range(len(bit_raw) - 1):
         if bit_raw[i] == 0 and bit_raw[i + 1] == 1:
